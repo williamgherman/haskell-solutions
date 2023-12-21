@@ -143,3 +143,67 @@ map f = unfold null (f . head) tail
 iterate :: (a -> a) -> a -> [a]
 iterate f = unfold (\_ -> False) f f
 ```
+### Exercise 7.07
+
+Modify the binary string transmitter example to detect simple transmission
+errors using the concept of parity bits. That is, each eight-bit binary number
+produced during encoding is extended with a parity bit, set to one if the number
+contains an odd number of ones, and to zero otherwise. In turn, each resulting
+nine-bit binary number consumed during decoding is checked to ensure that its
+parity bit is correct, with the parity bit being discarded if this is the case,
+and a parity error being reported otherwise.
+
+Hint: the library function `error :: String -> a` displays the given string as
+an error message and terminates the program; the polymorphic result type ensures
+that `error` can be used in any context.
+
+### Solution
+
+See [07.07.hs](./07.07.hs) for the full program.
+
+### Exercise 7.08
+
+Test your new string transmitter program from the previous exercise using a
+faulty communication channel that forgets the first bit, which can be modelled
+using the `tail` function on lists of bits.
+
+### Solution
+
+See [07.08.hs](./07.08.hs) for the program with the modified `channel` function:
+
+```haskell
+channel :: [Bit] -> [Bit]
+channel = tail
+```
+
+As it is currently, the `transmit` function only correctly produces the parity
+error *sometimes* (every other character: `a`, `c`, etc.) and when it does not
+throw the error, it decodes the wrong result because of the missing bits.
+
+### Exercise 7.09
+
+Define a function `altMap :: (a -> b) -> (a -> b) -> [a] -> [b]` that
+alternately applies its two argument functions to successive elements in a list,
+in turn about order. For example:
+
+```
+> altMap (+10) (+100) [0,1,2,3,4]
+[10,101,12,103,14]
+```
+
+### Solution
+
+```haskell
+altMap :: (a -> b) -> (a -> b) -> [a] -> [b]
+altMap _ _ []       = []
+altMap f _ [x]      = [f x]
+altMap f g (x:y:ys) = f x : g y : altMap f g ys
+```
+
+### Exercise 7.10
+
+Using `altMap`, define a function `luhn :: [Int] -> Bool` that implements the
+*Luhn algorithm* from the exercises in [chapter 4](./04.md) for bank card
+numbers of any length. Test your new function using your own bank card.
+
+See [07.10.hs](./07.10.hs) for the complete code.
