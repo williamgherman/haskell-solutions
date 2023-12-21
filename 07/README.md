@@ -203,7 +203,7 @@ altMap f g (x:y:ys) = f x : g y : altMap f g ys
 ### Exercise 7.10
 
 Using `altMap`, define a function `luhn :: [Int] -> Bool` that implements the
-*Luhn algorithm* from the exercises in [chapter 4](./04.md) for bank card
+*Luhn algorithm* from the exercises in [chapter 4](/04/README.md) for bank card
 numbers of any length. Test your new function using your own bank card.
 
 See [07.10.hs](./07.10.hs) for the complete code.
