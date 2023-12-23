@@ -11,9 +11,9 @@ Hint: make use of `add` in your definition.
 
 ```haskell
 mult :: Nat -> Nat -> Nat
-mult Zero _    = Zero
-mult _    Zero = Zero
-mult (Succ m) n = add n (mult m n)
+mult Zero     _    = Zero
+mult _        Zero = Zero
+mult (Succ m) n    = add n (mult m n)
 ```
 
 ### Exercise 8.02
