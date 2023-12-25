@@ -122,3 +122,83 @@ folde :: (Int -> a) -> (a -> a -> a) -> Expr -> a
 folde f _ (Val x) = f x
 folde f g (Add x y) = g (folde f g x) (folde f g y)
 ```
+
+### Exercise 8.06
+
+Using `folde`, define a function `eval :: Expr -> Int` that evaluates an
+expression to an integer value, and a function `size :: Expr -> Int` that
+calculates the number of values in an expression.
+
+### Solution
+
+```haskell
+eval :: Expr -> Int
+eval e = folde id (+) e
+
+size :: Expr -> Int
+size e = folde (\_ -> 1) (+) e
+```
+
+### Exercise 8.07
+
+Complete the following instance declarations:
+
+```haskell
+instance Eq a => Eq (Maybe a) where
+    ...
+
+instance Eq a => Eq [a] where
+    ...
+```
+
+### Solution
+
+```haskell
+instance Eq a => Eq (Maybe a) where
+    Nothing == Nothing = True
+    Just a  == Just b  = a == b
+    _       == _       = False
+
+instance Eq a => Eq [a] where
+    []     == []     = True
+    [_]    == []     = False
+    []     == [_]    = False
+    (x:xs) == (y:ys) = x == y && xs == ys
+```
+
+### Exercise 8.08
+
+Extend the tautology checker to support the use of logical disjunction (&or;)
+and equivalence (&hArr;) in propositions.
+
+### Solution
+
+Assuming the following definitions for disjunction and equivalence:
+
+| A     | B     | A &or; B |
+| :---: | :---: |  :---:   |
+| F     | F     | F        |
+| F     | T     | T        |
+| T     | F     | T        |
+| T     | T     | T        |
+
+| A     | B     | A &hArr; B |
+| :---: | :---: |   :---:    |
+| F     | F     | T          |
+| F     | T     | F          |
+| T     | F     | F          |
+| T     | T     | T          |
+
+The only changes to the program were to add these two definitions to the `Prop`
+type and in the `vars` equation, and to be able to `eval`uate these definitions
+using the built-in `&&` and `==` operators.
+
+See [08.08.hs](./08.08.hs).
+
+### Exercise 8.09
+
+Extend the abstract machine to support the use of multiplication.
+
+### Solution
+
+See [08.09.hs](./08.09.hs).
