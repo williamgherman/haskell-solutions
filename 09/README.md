@@ -32,3 +32,14 @@ isChoice []     _  = True
 isChoice (x:xs) [] = False
 isChoice (x:xs) ys = elem x ys && isChoice xs (rmFirst x ys)
 ```
+
+### Exercise 9.03
+
+What effect would generalising the function `split` to also return pairs
+containing the empty list have on the behaviour of `solutions`?
+
+### Solution
+
+If `split` would also return empty list pairs, then the function `exprs` would
+no longer be guaranteed to reduce the length of the list, and `solutions` would
+run indefinitely.
